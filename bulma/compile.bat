@@ -1,0 +1,1 @@
+sass ./bulma/bulma.sass ./app/static/css/bulma.min.css --style=compressed
