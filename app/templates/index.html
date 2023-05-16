@@ -1,6 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 
+<section class="hero is-medium">
+    <div class="hero-body">
+        <p class="title">
+            Lorean
+        </p>
+        <p class="subtitle">
+            Welcome to the Lorean backup management software!
+        </p>
+    </div>
+</section>
 
+<div class="columns">
+    <div class="column">
+        <div class="box">
+            <h2 class="title">Create a backup</h2>
+            <p class="subtitle">Click here to create a new backup of your files to keep them all safe.</p>
+            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-success">Create</button></a>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="title">Manage your backups</h2>
+            <p class="subtitle">Use this tool to manage your existing backups on any drive, keeping your used storage under control.</p>
+            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-info">Manage</button></a>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="title">Restore from backup</h2>
+            <p class="subtitle">If you lost some files, restore them easily using Lorean's restoring functionality.</p>
+            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-danger">Restore</button></a>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

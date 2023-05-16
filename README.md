@@ -1,4 +1,4 @@
-![Lorean logo](https://raw.githubusercontent.com/mags0ft/Lorean/master/docs/images/logo.png)
+![Lorean logo](https://raw.githubusercontent.com/mags0ft/Lorean/master/app/static/images/logo.png)
 
 # Lorean
 

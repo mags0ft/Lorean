@@ -1,1 +1,2 @@
-bulma/* linguist-vendored
+bulma/** linguist-vendored
+*.sass linguist-vendored
