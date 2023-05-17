@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">New backup</h1>
+                <h2 class="subtitle">Create a new backup of a folder, drive or anything else you want to keep safe.</h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <form action="{{url_for('main.run_backup')}}" method="post">
+                <h2 class="subtitle">Setup</h2>
+                <p>
+                    Fill in the few fields below to create your backup with ease.<br>
+
+                    <strong>Note</strong>: Depending on the amount of files you want to back up,
+                    this can take a significant amount of time. Lorean will only focus on one
+                    backup running at a time, so there can't be several backups performed at once.
+                </p>
+                <hr>
+
+                {% for label, name, value, placeholder in [
+                    ["Absolute path of folder you want to back up", "orig", "", 'e.A. "C:\\", "C:\\Users\\...\\Documents"'],
+                    ["Absolute path of folder you want to put the backup in", "dest", "", 'e.A. "D:\\", "D:\\Backups\\"'],
+                    ["Name of the folder containing the backup", "folder", dest_folder_name, 'e.A. "Backup of my photos"']
+                ] %}
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">{{label}}</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input" name="{{name}}" type="text" value="{{value}}" placeholder='{{placeholder}}'>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+                
+                <button class="button is-unrounded is-success is-medium is-fullwidth" type="submit">
+                    <strong>Run backup</strong>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

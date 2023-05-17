@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="hero is-medium">
-    <div class="hero-body">
-        <p class="title">
-            Lorean
-        </p>
-        <p class="subtitle">
-            Welcome to the Lorean backup management software!
-        </p>
+<header>
+    <div class="columns is-vcentered">
+        <div class="column">
+            <img src="/static/images/logo.png" alt="Lorean" class="lorean-header-logo">
+        </div>
+        <div class="column">
+            <p class="subtitle">
+                Welcome to the Lorean backup management software!
+            </p>
+        </div>
     </div>
-</section>
+</header>
 
 <div class="columns">
     <div class="column">
         <div class="box">
             <h2 class="title">Create a backup</h2>
             <p class="subtitle">Click here to create a new backup of your files to keep them all safe.</p>
-            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-success">Create</button></a>
+            <a href="{{url_for('main.new_backup')}}">
+                <button class="button is-medium is-fullwidth is-unrounded is-success">
+                    Create
+                </button>
+            </a>
         </div>
     </div>
     <div class="column">

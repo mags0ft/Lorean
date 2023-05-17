@@ -1,0 +1,11 @@
+.lorean-header-logo {
+    width: 30rem;
+}
+
+body {
+    min-height: 100vh;
+}
+
+textarea {
+    min-height: 10em;
+}

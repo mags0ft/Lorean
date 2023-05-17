@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
+        <a class="navbar-item" href="/">
             <img src="/static/images/icon.png" width="28" height="28">
         </a>
     </div>
@@ -12,6 +12,10 @@
 
             <a class="navbar-item">
                 Logs
+            </a>
+
+            <a class="navbar-item" href="{{url_for('main.settings')}}">
+                Settings
             </a>
 
             <div class="navbar-item has-dropdown is-hoverable">
@@ -30,7 +34,7 @@
 
                     <hr class="navbar-divider">
 
-                    <a class="navbar-item">
+                    <a class="navbar-item" href="https://github.com/mags0ft/Lorean/blob/master/CONTRIBUTING.md">
                         Contribute!
                     </a>
                 </div>

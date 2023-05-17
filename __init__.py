@@ -1,7 +1,16 @@
 from flask import Flask
-from .app.config import *
+from dotenv import load_dotenv
+from os import getenv, path
+from uuid import uuid4
 
+from .app.config import *
 from .app.main import main
+
+if not path.isfile(ENVFILE):
+    with open(ENVFILE, "w") as f:
+        f.write(f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"')
+
+load_dotenv()
 
 def create_app():
     app = Flask(
@@ -12,5 +21,8 @@ def create_app():
     )
 
     app.register_blueprint(main)
-    
+
+    app.config["SECRET_KEY"] = getenv("SECRET_KEY")
+    app.jinja_env.globals.update(round=round, len=len)
+
     return app

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Running backup...</h1>
+                <h2 class="subtitle">
+                    The backup process is currently running and copying your files to the specified
+                    location. <strong>Make sure your device stays on and powered.</strong> Otherwise,
+                    your backup usability might get affected.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="subtitle">Running backup...</h2>
+            <p>
+                Fill in the few fields below to create your backup with ease.<br>
+
+                <strong>Note</strong>: Depending on the amount of files you want to back up,
+                this can take a significant amount of time. Lorean will only focus on one
+                backup running at a time, so there can't be several backups performed at once.
+            </p>
+            <hr>
+
+            <progress
+                class="progress is-medium"
+                value="{% if (total_files != 0) and (current_file != '') %}{{current_file_nr}}{% endif %}"
+                max="{{total_file_nr}}"
+            ></progress>
+
+            <table class="monitor-table">
+                <tr>
+                    <td><strong>Current file</strong></td>
+                    <td>{{current_file}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Progress</strong></td>
+                    <td>File {{current_file_nr}} of {{total_file_nr}} ({{round(current_file_nr / total_file_nr, 2)}}%)</td>
+                </tr>
+                <tr>
+                    <td><strong>Description</strong></td>
+                    <td>{{description}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

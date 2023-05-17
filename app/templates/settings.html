@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Settings</h1>
+                <h2 class="subtitle">You can tailor the backup process to your needs using the settings.</h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <form action="{{url_for('main.set_settings')}}" method="post">
+                <h2 class="subtitle">File excludes</h2>
+                <p>
+                    Files to exclude from the backup process, written using one regular expression per line.
+                </p>
+
+                <textarea type="text" class="input" name="excludes">{% for exclude in excludes %}{{exclude}}
+{% endfor %}</textarea>
+                <hr>
+                <button class="button is-unrounded is-primary" type="submit">
+                    <strong>Save</strong>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
