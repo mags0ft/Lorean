@@ -27,8 +27,8 @@
             <hr>
 
             <progress
-                class="progress is-medium"
-                value="{% if (total_files != 0) and (current_file != '') %}{{current_file_nr}}{% endif %}"
+                class="progress is-medium is-primary"
+                value="{% if (total_files != 0) and (current_file != '') %}{{current_file_nr + skipped}}{% endif %}"
                 max="{{total_file_nr}}"
             ></progress>
 
@@ -39,7 +39,11 @@
                 </tr>
                 <tr>
                     <td><strong>Progress</strong></td>
-                    <td>File {{current_file_nr}} of {{total_file_nr}} ({{round(current_file_nr / total_file_nr, 2)}}%)</td>
+                    <td>File {{current_file_nr + skipped}} of {{total_file_nr}} ({{round((current_file_nr + skipped) / total_file_nr * 100, 1)}}%)</td>
+                </tr>
+                <tr>
+                    <td><strong>Skipped</strong></td>
+                    <td>{{skipped}} files (excluded by regex)</td>
                 </tr>
                 <tr>
                     <td><strong>Description</strong></td>

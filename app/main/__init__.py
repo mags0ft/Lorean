@@ -40,6 +40,15 @@ def set_settings():
 def run_backup():
     global pipe
 
+    for name, description in {
+        "orig": "folder to back up",
+        "dest": "destination path for the backup",
+        "folder": "name of the backup folder"
+    }.items():
+        if request.form[name] == "":
+            flash(f"Please specify the {description}.", "warning")
+            return redirect(url_for("main.new_backup"))
+
     if pipe != None or (pipe != None and not pipe.closed):
         flash("Already running a backup.", "danger")
         return redirect(url_for("main.new_backup"))
@@ -67,7 +76,7 @@ def new_backup():
 
 @main.route("/backup/monitor")
 def monitor_backup():
-    global data
+    global data, pipe
 
     if pipe == None or pipe.closed:
         flash("All backup tasks have been finished!", "success")
@@ -78,9 +87,16 @@ def monitor_backup():
     except EOFError:
         pass
 
-    if data.description == "finished":
+    try:
+        pipe.send("send data")
+        pipe_broken = False
+    except BrokenPipeError:
+        pipe_broken = True
+
+    if data.description == "finished" or pipe_broken:
         flash("The backup has been completed.", "success")
         pipe.close()
+        pipe = None
 
         return redirect(url_for("main.index"))
     
@@ -96,9 +112,9 @@ def monitor_backup():
             current_file = data.current_file,
             current_file_nr = data.current_file_nr,
             total_file_nr = data.total_file_nr if data.total_file_nr != 0 else 1,
+            skipped = data.skipped,
             description = data.description
         )
     )
-    r.headers["Refresh"] = "2"
-
+    r.headers["Refresh"] = "1"
     return r

@@ -10,12 +10,14 @@ def refresh_status(
     current_file = "",
     current_file_nr = 0,
     total_file_nr = 0,
+    skipped = 0,
     description = ""
 ):
     pipe.send(Progress(
         current_file,
         current_file_nr,
         total_file_nr,
+        skipped,
         description
     ))
 
@@ -26,6 +28,7 @@ def backup(p, config: dict):
     destination_path = config["dest"]
     destination_folder = config["folder"]
     regexs = config["excludes"]
+    finalized_regexs = []
 
     for idx, regex in enumerate(regexs):
         if not regex:
@@ -33,7 +36,7 @@ def backup(p, config: dict):
             continue
         
         try:
-            re.compile(regex)
+            finalized_regexs.append(re.compile(regex))
         except re.error:
             refresh_status(p, description = f"error: invalid exclude regex at line {idx + 1}: '{regex}'")
             return 1
@@ -47,24 +50,32 @@ def backup(p, config: dict):
     ###
 
     file_nr = 1
+    skipped = 0
     mkdir(
         path.join(destination_path, destination_folder)
     )
 
     for path_, dirs, files in walk(originating_path):
-        rel_path = path_[len(path_)+1:]
+        rel_path = path_[len(originating_path)+1:]
 
         for dir in dirs:
             mkdir(path.join(destination_path, destination_folder, rel_path, dir))
 
         for file in files:
-            refresh_status(
-                p,
-                current_file = file,
-                current_file_nr = file_nr,
-                total_file_nr = total_files,
-                description = "Copying files..."
-            )
+            if any(regex.search(path.join(rel_path, file)) != None for regex in finalized_regexs):
+                skipped += 1
+                continue
+
+            elif p.poll():
+                refresh_status(
+                    p,
+                    current_file = path.join(rel_path, file),
+                    current_file_nr = file_nr,
+                    total_file_nr = total_files,
+                    skipped = skipped,
+                    description = "Copying files..."
+                )
+                p.recv()
 
             copy(
                 path.join(path_, file),
