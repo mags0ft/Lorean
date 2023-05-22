@@ -3,7 +3,7 @@ from ...app.main.data_container import Progress
 
 from os import walk, mkdir, path
 from shutil import copy
-import re
+import re, json, datetime
 
 def refresh_status(
     pipe,
@@ -20,6 +20,27 @@ def refresh_status(
         skipped,
         description
     ))
+
+def write_meta(
+        destination_path,
+        destination_folder,
+        originating_path,
+        created = "",
+        finished = "",
+        files = 0,
+        lock = False
+    ):
+    with open(path.join(destination_path, destination_folder, ".lorean_meta"), "w") as f:
+        json.dump({
+            "created": created,
+            "finished": finished, 
+            "files": files,
+            "folder": originating_path,
+            "lock": lock
+        }, f)
+
+def get_current_date():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H-%M')
 
 def backup(p, config: dict):
     refresh_status(p, description = "initializing backup...")
@@ -49,10 +70,20 @@ def backup(p, config: dict):
 
     ###
 
+    backup_begin = get_current_date()
+
     file_nr = 1
     skipped = 0
     mkdir(
         path.join(destination_path, destination_folder)
+    )
+
+    write_meta(
+        destination_path,
+        destination_folder,
+        originating_path,
+        backup_begin,
+        lock = True
     )
 
     for path_, dirs, files in walk(originating_path):
@@ -86,6 +117,16 @@ def backup(p, config: dict):
 
     ###
 
+    write_meta(
+        destination_path,
+        destination_folder,
+        originating_path,
+        backup_begin,
+        get_current_date(),
+        total_files - skipped,
+        lock = False
+    )
+
     refresh_status(p, description = "finished.")
 
 def start_backup(config):
@@ -95,7 +136,7 @@ def start_backup(config):
         target = backup,
         args = (childc, config, )
     )
-    backup_process.name = "Lorean backup process daemon"
+    backup_process.name = "Lorean backup process"
 
     backup_process.daemon = True
     backup_process.start()

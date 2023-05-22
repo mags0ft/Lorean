@@ -4,8 +4,8 @@ from flask import (
     redirect,
     url_for,
     flash,
-    make_response,
-    request
+    request,
+    g
 )
 
 from ...app.database import create_database
@@ -76,45 +76,54 @@ def new_backup():
 
 @main.route("/backup/monitor")
 def monitor_backup():
-    global data, pipe
+    g.monitor = True
+    return render_template(
+        "monitor_backup.html"   
+    )
 
-    if pipe == None or pipe.closed:
-        flash("All backup tasks have been finished!", "success")
-        return redirect(url_for("main.index"))
+def refresh_data():
+    global data
+
+    if pipe == None: return True
 
     try:
-        data = pipe.recv()
+        if pipe.poll():
+            data = pipe.recv()
     except EOFError:
         pass
+    except BrokenPipeError:
+        return True
 
     try:
         pipe.send("send data")
         pipe_broken = False
     except BrokenPipeError:
         pipe_broken = True
+    return pipe_broken
 
-    if data.description == "finished" or pipe_broken:
-        flash("The backup has been completed.", "success")
-        pipe.close()
-        pipe = None
+@main.route("/backup/monitor-api")
+def monitor_api():
+    global pipe
 
-        return redirect(url_for("main.index"))
-    
-    elif data.description.startswith("error"):
-        flash(data.description, "danger")
+    pipe_broken = refresh_data()
 
-        return redirect(url_for("main.index"))
-
-    r = make_response(   
-        render_template(
-            "monitor_backup.html",
-
-            current_file = data.current_file,
-            current_file_nr = data.current_file_nr,
-            total_file_nr = data.total_file_nr if data.total_file_nr != 0 else 1,
-            skipped = data.skipped,
-            description = data.description
-        )
+    progress = (
+        round((data.current_file_nr + data.skipped) / (
+            data.total_file_nr if data.total_file_nr != 0 else 1
+        ) * 100, 2) if (
+            data != None
+        ) else 0
     )
-    r.headers["Refresh"] = "1"
-    return r
+
+    return {
+        "backup_running": (pipe != None and not pipe_broken),
+        "progress": progress,
+
+        "data": {
+            "current_file": data.current_file,
+            "current_file_nr": data.current_file_nr + data.skipped,
+            "total_file_nr": data.total_file_nr if data.total_file_nr != 0 else 1,
+            "skipped": data.skipped,
+            "description": data.description
+        } if (not pipe_broken) and data != None else {}
+    }

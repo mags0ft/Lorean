@@ -42,13 +42,10 @@
         </div>
 
         <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-primary" href="{{url_for('main.new_backup')}}">
-                        Create backup
-                    </a>
-                </div>
-            </div>
+            <a class="navbar-item" href="/backup/monitor">
+                <span class="tag is-rounded mx-2 px-3" id="miniview-icon"></span>
+                <strong id="miniview-text"></strong>
+            </a>
         </div>
     </div>
 </nav>

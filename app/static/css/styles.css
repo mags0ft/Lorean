@@ -2,10 +2,11 @@
     width: 30rem;
 }
 
-body {
-    min-height: 100vh;
-}
-
 textarea {
     min-height: 10em;
+    resize: vertical;
+}
+
+main {
+    min-height: calc(100vh - 14rem);
 }

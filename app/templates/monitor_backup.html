@@ -5,53 +5,42 @@
     <div class="column is-one-quarter">
         <div class="box">
             <header>
-                <h1 class="title">Running backup...</h1>
+                <h1 class="title">Backup monitor</h1>
                 <h2 class="subtitle">
-                    The backup process is currently running and copying your files to the specified
-                    location. <strong>Make sure your device stays on and powered.</strong> Otherwise,
-                    your backup usability might get affected.
+                    Using the Lorean backup monitor, you can easily keep track of your current backup
+                    task and find out about how it's going so far.
                 </h2>
             </header>
         </div>
     </div>
     <div class="column">
         <div class="box">
-            <h2 class="subtitle">Running backup...</h2>
-            <p>
-                Fill in the few fields below to create your backup with ease.<br>
-
-                <strong>Note</strong>: Depending on the amount of files you want to back up,
-                this can take a significant amount of time. Lorean will only focus on one
-                backup running at a time, so there can't be several backups performed at once.
-            </p>
+            <h2 class="subtitle">Backup monitor</h2>
             <hr>
 
-            <progress
-                class="progress is-medium is-primary"
-                value="{% if (total_files != 0) and (current_file != '') %}{{current_file_nr + skipped}}{% endif %}"
-                max="{{total_file_nr}}"
-            ></progress>
+            <progress class="progress is-medium is-primary" id="progress-bar"></progress>
 
-            <table class="monitor-table">
+            <table class="table is-hoverable">
                 <tr>
                     <td><strong>Current file</strong></td>
-                    <td>{{current_file}}</td>
+                    <td id="current_file">none</td>
                 </tr>
                 <tr>
                     <td><strong>Progress</strong></td>
-                    <td>File {{current_file_nr + skipped}} of {{total_file_nr}} ({{round((current_file_nr + skipped) / total_file_nr * 100, 1)}}%)</td>
+                    <td><span id="current_file_nr">0</span> / <span id="total_file_nr">0</span> files</td>
                 </tr>
                 <tr>
                     <td><strong>Skipped</strong></td>
-                    <td>{{skipped}} files (excluded by regex)</td>
+                    <td id="skipped">0</td>
                 </tr>
                 <tr>
                     <td><strong>Description</strong></td>
-                    <td>{{description}}</td>
+                    <td id="description"></td>
                 </tr>
             </table>
         </div>
     </div>
 </div>
 
+<script src="/static/js/monitor.js"></script>
 {% endblock %}
