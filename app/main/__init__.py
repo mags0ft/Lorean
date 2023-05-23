@@ -25,12 +25,14 @@ def index():
 def settings():
     return render_template(
         "settings.html",
-        excludes = db["excludes"]
+        excludes = db["excludes"],
+        locations = db["locations"]
     )
 
 @main.route("/settings/set", methods = ["POST"])
 def set_settings():
     db["excludes"] = request.form["excludes"].splitlines()
+    db["locations"] = request.form["locations"].splitlines()
 
     return redirect(
         url_for("main.settings")
@@ -71,7 +73,8 @@ def new_backup():
         dest_folder_name = str(
             datetime.today().strftime('%Y-%m-%d %H-%M') +
             " " + str(uuid4())[:8]
-        )
+        ),
+        locations = db["locations"]
     )
 
 @main.route("/backup/monitor")

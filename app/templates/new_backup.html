@@ -23,26 +23,50 @@
                 </p>
                 <hr>
 
-                {% for label, name, value, placeholder in [
-                    ["Absolute path of folder you want to back up", "orig", "", 'e.A. "C:\\", "C:\\Users\\...\\Documents"'],
-                    ["Absolute path of folder you want to put the backup in", "dest", "", 'e.A. "D:\\", "D:\\Backups\\"'],
-                    ["Name of the folder containing the backup", "folder", dest_folder_name, 'e.A. "Backup of my photos"']
-                ] %}
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
-                        <label class="label">{{label}}</label>
+                        <label class="label">Absolute path of folder you want to back up</label>
                     </div>
                     <div class="field-body">
                         <div class="field">
                             <p class="control">
-                                <input class="input" name="{{name}}" type="text" value="{{value}}" placeholder='{{placeholder}}'>
+                                <input class="input" name="orig" type="text" value=""
+                                    placeholder="e.A. &quot;C:\&quot;, &quot;C:\Users\...\Documents&quot;">
                             </p>
                         </div>
                     </div>
                 </div>
                 <hr>
-                {% endfor %}
-                
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Absolute path of folder you want to put the backup in</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                {% include "components/backup_location_picker.html" %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Name of the folder containing the backup</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input" name="folder" type="text" value="2023-05-23 10-05 df8057d1"
+                                    placeholder="e.A. &quot;Backup of my photos&quot;">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
                 <button class="button is-unrounded is-success is-medium is-fullwidth" type="submit">
                     <strong>Run backup</strong>
                 </button>

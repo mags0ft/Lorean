@@ -1,0 +1,35 @@
+<div class="dropdown is-hoverable">
+    <div class="dropdown-trigger">
+        <button class="button is-unrounded" type="button">
+            <span>Pick backup location</span>
+        </button>
+    </div>
+    <div class="dropdown-menu location-picker">
+        <div class="dropdown-content">
+            <div class="dropdown-item">
+                <span>Enter absolute path</span>
+                <input class="input" name="dest" type="text" value="" id="backup-dest-path"
+                    placeholder="e.A. &quot;D:\&quot;, &quot;D:\Backups\&quot;">
+            </div>
+            <hr class="dropdown-divider">
+            {% for location in locations %}
+            <a onclick="set_path('{{location.replace('\\', '\\\\')}}')" class="dropdown-item">
+                <span>{{location}}</span>
+            </a>
+            {% endfor %}
+                {% if not locations %}
+                <span class="dropdown-item">
+                    <strong>Oops!</strong> You don't seem to have any pre-defined backup locations.
+                    You can define those in the <a href="{{url_for('main.settings')}}">settings</a>.
+                </span>
+                {% else %}
+                <hr class="dropdown-divider">
+                <span class="dropdown-item">
+                    Edit the location list in <a href="{{url_for('main.settings')}}">settings</a>.
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/backup_picker.js"></script>

@@ -21,8 +21,23 @@
                 <textarea type="text" class="input" name="excludes">{% for exclude in excludes %}{{exclude}}
 {% endfor %}</textarea>
                 <hr>
+
+                <h2 class="subtitle">Backup locations</h2>
+                <p>
+                    Absolute paths to directories or devices that contain your backup folders,
+                    one path per line.
+                </p>
+
+                <textarea
+                type="text" class="input"
+                name="locations"
+                placeholder="a.E. C:\Users\...\Backups"
+                >{% for location in locations %}{{location}}
+{% endfor %}</textarea>
+
+                <hr>
                 <button class="button is-unrounded is-primary" type="submit">
-                    <strong>Save</strong>
+                    <strong>Save settings</strong>
                 </button>
             </form>
         </div>

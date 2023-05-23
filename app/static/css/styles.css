@@ -10,3 +10,7 @@ textarea {
 main {
     min-height: calc(100vh - 14rem);
 }
+
+.location-picker {
+    width: 30rem;
+}

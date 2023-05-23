@@ -1,7 +1,8 @@
 from sqlitedict import SqliteDict
 
 STD_SETUP = {
-    "excludes": []
+    "excludes": [],
+    "locations": []
 }
 
 def create_database():
