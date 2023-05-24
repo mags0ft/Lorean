@@ -7,6 +7,7 @@ from flask import (
     request,
     g
 )
+from werkzeug.utils import secure_filename
 
 from ...app.database import create_database
 from ...app.backupd import start_backup
@@ -153,7 +154,7 @@ def logs():
 def log_reader():
     name = request.args.get("file")
 
-    with open(join_path(LOGDIR, name), "r") as f:
+    with open(join_path(LOGDIR, secure_filename(name)), "r") as f:
         log = f.read()
 
     return render_template(
