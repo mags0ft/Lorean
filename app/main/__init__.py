@@ -140,7 +140,7 @@ def monitor_api():
 def logs():
     logs_ = sorted([
         l.replace(".log", "") for l in listdir(LOGDIR)
-    ])
+    ], reverse = True)
     abs_backup_path = abspath(LOGDIR)
 
     return render_template(

@@ -1,4 +1,5 @@
 let PROGRESS_BAR = document.getElementById("progress-bar");
+let interval = 0;
 
 function set_monitor(json) {
     if (!json["backup_running"]) {
@@ -17,7 +18,9 @@ function set_monitor(json) {
             PROGRESS_BAR.classList.add("is-danger");
 
             document.getElementById("description").classList.add("has-text-danger");
+            document.getElementById("description").innerText = json["data"]["description"];
             
+            clearInterval(interval)
             return;
         }
         PROGRESS_BAR.classList.add("is-primary");
@@ -48,7 +51,7 @@ function update_monitor() {
     });
 }
 
-update_monitor();
-setInterval(
-    update_monitor, 1000
+interval = setInterval(
+    update_monitor, REFRESH_CYCLE
 );
+update_monitor();

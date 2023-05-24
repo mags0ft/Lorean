@@ -7,7 +7,7 @@ from uuid import uuid4
 from os import walk, mkdir, path
 from shutil import copy
 from time import sleep
-from traceback import format_exception
+from traceback import format_exc
 from logging import Logger
 import re, json, datetime
 
@@ -56,23 +56,23 @@ def backup(p, logger: Logger, config: dict):
     originating_path = config["orig"]
     destination_path = config["dest"]
     destination_folder = config["folder"]
-    regexs = config["excludes"]
-    finalized_regexs = []
+    regexes = config["excludes"]
+    finalized_regexes = []
 
     logger.info(f'''Backup config:
     originating path:       {originating_path}
     destination path:       {destination_path}
     destination folder:     {destination_folder}
-    exclude regex amount:   {len(regexs)}''')
+    exclude regex amount:   {len(regexes)}''')
 
-    logger.debug("Compiling/validating regexs")
-    for idx, regex in enumerate(regexs):
+    logger.debug("Compiling/validating regexes")
+    for idx, regex in enumerate(regexes):
         if not regex:
-            regexs.remove(regex)
+            regexes.remove(regex)
             continue
         
         try:
-            finalized_regexs.append(re.compile(regex))
+            finalized_regexes.append(re.compile(regex))
         except re.error:
             error_msg = f"error: invalid exclude regex at line {idx + 1}: '{regex}'"
             logger.fatal(error_msg)
@@ -133,7 +133,7 @@ def backup(p, logger: Logger, config: dict):
                 )
                 p.recv()
             
-            elif any(regex.search(fp) != None for regex in finalized_regexs):
+            elif any(regex.search(fp) != None for regex in finalized_regexes):
                 skipped += 1
                 if LOG_SKIPS:
                     logger.info(f"s {fp}")
@@ -179,9 +179,7 @@ def backup_wrapper(childc, config):
     try:
         backup(childc, logger, config)
     except Exception as e:
-        exc_info = "\n".join(
-            format_exception(e)
-        )
+        exc_info = format_exc()
 
         logger.fatal(f'''
 Fatal exception. Backup stopped. Process will exit soon.

@@ -1,45 +1,84 @@
 {% extends "base.html" %}
 {% block content %}
 
-<header>
+<header class="py-6">
     <div class="columns is-vcentered">
-        <div class="column">
+        <div class="column has-text-centered">
             <img src="/static/images/logo.png" alt="Lorean" class="lorean-header-logo">
         </div>
         <div class="column">
-            <p class="subtitle">
-                Welcome to the Lorean backup management software!
-            </p>
+            <div class="box has-background-success p-5">
+                <h2 class="title has-text-white">Create a backup</h2>
+                <p class="subtitle has-text-white">Click here to create a new backup of your files to keep them all safe.</p>
+                <a href="{{url_for('main.new_backup')}}">
+                    <button class="button my-5 is-medium is-large is-unrounded is-fullwidth has-background-success-light">
+                        Create new backup
+                    </button>
+                </a>
+                <p class="has-text-white">
+                    Customize backup <a href="{{url_for('main.settings')}}">settings</a>
+                </p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <a class="subtitle" href="{{url_for('main.monitor_backup')}}">Backup dashboard</a>
+                <progress class="progress is-medium is-primary my-5" id="progress-bar"></progress>
+                <table class="table is-hoverable">
+                    <tr class="is-hidden">
+                        <td><strong>Current file</strong></td>
+                        <td id="current_file">none</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Progress</strong></td>
+                        <td><span id="current_file_nr">0</span> / <span id="total_file_nr">0</span> files</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Skipped</strong></td>
+                        <td id="skipped">0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description</strong></td>
+                        <td id="description"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </header>
 
-<div class="columns">
+<div class="columns my-3">
     <div class="column">
-        <div class="box">
-            <h2 class="title">Create a backup</h2>
-            <p class="subtitle">Click here to create a new backup of your files to keep them all safe.</p>
-            <a href="{{url_for('main.new_backup')}}">
-                <button class="button is-medium is-fullwidth is-unrounded is-success">
-                    Create
-                </button>
-            </a>
+        <div class="box has-background-info">
+            <h2 class="title has-text-white">Manage your backups</h2>
+            <p class="subtitle has-text-white">Use this tool to manage your existing backups on any drive, keeping your
+                used storage under control.</p>
+            <a href=""><button class="button is-medium is-fullwidth is-unrounded has-background-info-light">Manage</button></a>
         </div>
     </div>
     <div class="column">
-        <div class="box">
-            <h2 class="title">Manage your backups</h2>
-            <p class="subtitle">Use this tool to manage your existing backups on any drive, keeping your used storage under control.</p>
-            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-info">Manage</button></a>
+        <div class="box has-background-danger">
+            <h2 class="title has-text-white">Restore from backup</h2>
+            <p class="subtitle has-text-white">If you lost some files, restore them easily using Lorean's restoring
+                functionality.</p>
+            <a href=""><button class="button is-medium is-fullwidth is-unrounded has-background-danger-light">Restore</button></a>
         </div>
     </div>
     <div class="column">
-        <div class="box">
-            <h2 class="title">Restore from backup</h2>
-            <p class="subtitle">If you lost some files, restore them easily using Lorean's restoring functionality.</p>
-            <a href=""><button class="button is-medium is-fullwidth is-unrounded is-danger">Restore</button></a>
+        <div class="box has-background-link">
+            <h2 class="title has-text-white">Read logs</h2>
+            <p class="subtitle has-text-white">
+                If you believe something could've gone wrong in a backup,
+                you can easily revise the whole process by reading the logs.
+            </p>
+            <a href="{{url_for('main.logs')}}"><button class="button is-medium is-fullwidth is-unrounded has-background-link-light">Read logs</button></a>
         </div>
     </div>
 </div>
 
+<script>
+    let REFRESH_CYCLE = 5000;
+</script>
+<script src="/static/js/monitor.js">
+</script>
 {% endblock %}
