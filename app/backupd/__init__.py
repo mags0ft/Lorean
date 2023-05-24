@@ -172,7 +172,7 @@ def backup(p, logger: Logger, config: dict):
 def backup_wrapper(childc, config):
     logger = create_logger(
         f"backup {get_current_date()}", path.join(
-            LOGDIR, f"{get_current_date()} {str(uuid4())[:8]}.log"
+            LOGDIR, f"{get_current_date().replace(' ', '_')}_{str(uuid4())[:8]}.log"
         )
     )
 
