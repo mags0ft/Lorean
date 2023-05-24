@@ -10,8 +10,12 @@ from flask import (
 
 from ...app.database import create_database
 from ...app.backupd import start_backup
+from ...app.config import LOGDIR
 from uuid import uuid4
 from datetime import datetime
+from os import listdir
+from os.path import abspath
+from os.path import join as join_path
 
 main = Blueprint("main", __name__)
 db = create_database()
@@ -51,7 +55,7 @@ def run_backup():
             flash(f"Please specify the {description}.", "warning")
             return redirect(url_for("main.new_backup"))
 
-    if pipe != None or (pipe != None and not pipe.closed):
+    if pipe != None:
         flash("Already running a backup.", "danger")
         return redirect(url_for("main.new_backup"))
 
@@ -61,8 +65,6 @@ def run_backup():
         "folder": request.form["folder"],
         "excludes": db["excludes"]
     })
-
-    flash("Backup started. This can take a while.", "success")
 
     return redirect(url_for("main.monitor_backup"))
 
@@ -106,7 +108,7 @@ def refresh_data():
 
 @main.route("/backup/monitor-api")
 def monitor_api():
-    global pipe
+    global pipe, data
 
     pipe_broken = refresh_data()
 
@@ -117,6 +119,9 @@ def monitor_api():
             data != None
         ) else 0
     )
+
+    if pipe_broken:
+        pipe = None
 
     return {
         "backup_running": (pipe != None and not pipe_broken),
@@ -130,3 +135,30 @@ def monitor_api():
             "description": data.description
         } if (not pipe_broken) and data != None else {}
     }
+
+@main.route("/logs")
+def logs():
+    logs_ = sorted([
+        l.replace(".log", "") for l in listdir(LOGDIR)
+    ])
+    abs_backup_path = abspath(LOGDIR)
+
+    return render_template(
+        "logs.html",
+        logs = logs_,
+        abs_backup_path = abs_backup_path
+    )
+
+@main.route("/logs/read")
+def log_reader():
+    name = request.args.get("file")
+
+    with open(join_path(LOGDIR, name), "r") as f:
+        log = f.read()
+
+    return render_template(
+        "log_view.html",
+        log_name = name,
+        log_size = len(log),
+        log = log
+    )

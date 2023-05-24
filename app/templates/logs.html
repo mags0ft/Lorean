@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Logs</h1>
+                <h2 class="subtitle">
+                    Here you can examine the logs of each backup you performed to get insights about
+                    success, included and excluded files and the overall performance.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="subtitle">
+                Backup logs read from "{{abs_backup_path}}"
+            </h2>
+            <hr>
+            {% for log in logs %}
+                <a class="box is-fullwidth" href="{{url_for('main.log_reader', file = log + '.log')}}">
+                    <span class="subtitle">
+                        {{log}}
+                    </span>
+                </a>
+            {% endfor %}
+            {% if not logs %}
+            <div class="has-text-centered p-6">
+                <h1 class="title">
+                    Aww, snap!
+                </h1>
+                <h2 class="subtitle py-1">
+                    No backup logs have been found.<br>
+                    Maybe you didn't run your first backup yet or the log folder has been cleaned.
+                </h2>
+                <a href="{{url_for('main.new_backup')}}" class="button is-primary is-unrounded">
+                    <strong>Create a new backup</strong>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

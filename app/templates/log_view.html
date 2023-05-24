@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <a class="box" href="{{url_for('main.logs')}}">
+            <h2 class="subtitle"><strong>Back</strong></h2>
+        </a>
+        <div class="box">
+            <header>
+                <h1 class="title">Log reader</h1>
+                <h2 class="subtitle">
+                    Here you can read the log contents from this backup. To delete this log,
+                    navigate to the logging folder using your file explorer and remove the
+                    specific log files.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="subtitle">
+                {{log_name}} &middot; {{round(log_size / 1024, 1)}} KB
+            </h2>
+
+            <textarea class="is-fullwidth input log-view" readonly>{{log}}</textarea>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

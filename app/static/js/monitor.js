@@ -7,11 +7,22 @@ function set_monitor(json) {
         PROGRESS_BAR.classList.add("is-success");
         PROGRESS_BAR.classList.remove("is-primary");
         PROGRESS_BAR.value = 1;
+        PROGRESS_BAR.max = 1;
 
         return;
     } else {
+        if (json["data"]["description"].startsWith("error")) {
+            PROGRESS_BAR.classList.remove("is-success");
+            PROGRESS_BAR.classList.remove("is-primary");
+            PROGRESS_BAR.classList.add("is-danger");
+
+            document.getElementById("description").classList.add("has-text-danger");
+            
+            return;
+        }
         PROGRESS_BAR.classList.add("is-primary");
         PROGRESS_BAR.classList.remove("is-success");
+        document.getElementById("description").classList.remove("has-text-danger");
     }
 
     for (key in json["data"]) {

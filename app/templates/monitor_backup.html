@@ -12,6 +12,21 @@
                 </h2>
             </header>
         </div>
+
+        <div class="box has-background-danger-light">
+            <div>
+                <h1 class="subtitle"><strong>Important!</strong></h1>
+                <p>
+                    In order to keep track of potential errors during the backup in realtime, you should
+                    let this backup monitor open as it will inform you directly if something unexpected
+                    happens. If you can't, we advise you to take a look at the logs after each backup.
+                </p>
+                <br>
+                <a href="{{url_for('main.logs')}}" class="button is-unrounded is-danger-light is-fullwidth">
+                    Open backup logs
+                </a>
+            </div>
+        </div>
     </div>
     <div class="column">
         <div class="box">

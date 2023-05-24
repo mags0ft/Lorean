@@ -14,3 +14,7 @@ main {
 .location-picker {
     width: 30rem;
 }
+
+.log-view {
+    min-height: 50vh;
+}

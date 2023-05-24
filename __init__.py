@@ -1,6 +1,6 @@
 from flask import Flask
 from dotenv import load_dotenv
-from os import getenv, path
+from os import getenv, mkdir, path
 from uuid import uuid4
 
 from .app.config import *
@@ -9,6 +9,9 @@ from .app.main import main
 if not path.isfile(ENVFILE):
     with open(ENVFILE, "w") as f:
         f.write(f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"')
+
+if not path.isdir(LOGDIR):
+    mkdir(LOGDIR)
 
 load_dotenv()
 
