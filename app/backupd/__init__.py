@@ -4,7 +4,7 @@ from ...app.backupd.logger import create_logger
 from ...app.config import LOGDIR, LOG_SKIPS, LOG_COPY
 from uuid import uuid4
 
-from os import walk, mkdir, path
+from os import walk, mkdir, path, pardir
 from shutil import copy
 from time import sleep
 from traceback import format_exc
@@ -169,7 +169,77 @@ def backup(p, logger: Logger, config: dict):
 
     return 0
 
-def backup_wrapper(childc, config):
+def recover(p, logger: Logger, config: dict):
+    refresh_status(p, description = "initializing recovery...")
+    logger.info("Initializing recovery.")
+
+    originating_path = config["orig"]
+    destination_path = config["dest"]
+
+    logger.info(f'''Backup config:
+    backup path:            {originating_path}
+    destination path:       {destination_path}''')
+
+    logger.debug("Counting amount of files")
+    total_files = sum(
+        len(_files) for _, _, _files in walk(
+            originating_path
+        )
+    ) - 1 # for the meta file
+    logger.info(f"{total_files} found to recover")
+
+    ###
+
+    file_nr = 1
+
+    logger.info("Creating recovered directory")
+    dest_recovered_path = path.join(
+        destination_path + "-recovered-" + str(uuid4())[:8]
+    )
+
+    mkdir(
+        dest_recovered_path
+    )
+
+    logger.info("Recovering files")
+    for path_, dirs, files in walk(originating_path):
+        rel_path = path_[len(originating_path)+1:]
+
+        for dir in dirs:
+            mkdir(path.join(dest_recovered_path, rel_path, dir))
+
+        for file in files:
+            fp = path.join(rel_path, file)
+
+            if fp == ".lorean_meta":
+                continue
+
+            if p.poll():
+                refresh_status(
+                    p,
+                    current_file = fp,
+                    current_file_nr = file_nr,
+                    total_file_nr = total_files,
+                    skipped = 0,
+                    description = "Recovering files..."
+                )
+                p.recv()
+
+            copy(
+                path.join(path_, file),
+                path.join(dest_recovered_path, rel_path, file)
+            )
+
+            file_nr += 1
+
+    ###
+
+    logger.info(f"{total_files} files recovered.")
+    logger.info("Recovery finished, process exiting.")
+
+    return 0
+
+def backup_wrapper(func, childc, config):
     logger = create_logger(
         f"backup {get_current_date()}", path.join(
             LOGDIR, f"{get_current_date().replace(' ', '_')}_{str(uuid4())[:8]}.log"
@@ -177,7 +247,7 @@ def backup_wrapper(childc, config):
     )
 
     try:
-        backup(childc, logger, config)
+        func(childc, logger, config)
     except Exception as e:
         exc_info = format_exc()
 
@@ -190,16 +260,24 @@ Fatal exception. Backup stopped. Process will exit soon.
 
         raise e
 
-def start_backup(config):
+def _create_process(func, config):
     parentc, childc = Pipe()
 
     backup_process = Process(
         target = backup_wrapper,
-        args = (childc, config, )
+        args = (func, childc, config, )
     )
-    backup_process.name = "Lorean backup process"
+    backup_process.name = "Lorean backupd"
 
     backup_process.daemon = True
     backup_process.start()
 
+    return parentc
+
+def start_backup(config):
+    parentc = _create_process(backup, config)
+    return parentc
+
+def start_recovery(config):
+    parentc = _create_process(recover, config)
     return parentc

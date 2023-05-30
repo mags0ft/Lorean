@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Examine your backup</h1>
+                <h2 class="subtitle">
+                    Please examine your backup before continuing. This ensures everything is fine
+                    with it and you won't run into issues later on.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="subtitle">
+                Examination results of "{{backup}}"
+            </h2>
+            <hr>
+
+            {% with messages = get_flashed_messages(with_categories = True) %}
+            {% if messages %}
+            <div class="p-3">
+                {% for category, message in messages %}
+                <div class="box has-background-{{category}}">
+                    <strong class="has-text-white">{{message}}</strong>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <hr>
+
+            <form action="{{url_for('main.run_recovery')}}" method="post">
+                <input type="hidden" name="to-recover" value="{{to_recover}}">
+                <input type="hidden" name="backup-path" value="{{backup_path}}">
+
+                <p>
+                    <strong>Info</strong>: this will create a new folder containing all the contents of your backup.
+                    It will be placed in the same folder of the directory you want to recover.
+                </p>
+                <button type="submit" class="button is-unrounded is-medium is-primary is-fullwidth">
+                    Start recovery
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

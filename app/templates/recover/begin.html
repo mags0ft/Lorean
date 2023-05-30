@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Recover from backup</h1>
+                <h2 class="subtitle">
+                    Some data got lost? Just recover from a backup you made in the past.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <form action="{{url_for('main.recovery_pick')}}" method="post">
+                <h2 class="subtitle">Setup</h2>
+                <p>
+                    Fill in the few fields below to recover a directory or drive.<br>
+
+                    <strong>Note</strong>: Depending on the amount of files you want to recover,
+                    this can take a significant amount of time. Lorean will only focus on one
+                    backup or recovery running at a time, so there can't be several recoveries
+                    performed at once.
+                </p>
+                <hr>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Absolute path of folder you want to recover</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input" name="orig" type="text" value=""
+                                    placeholder="e.A. &quot;C:\&quot;, &quot;C:\Users\...\Documents&quot;">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Absolute path of folder containing all your backups</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                {% include "components/backup_location_picker.html" %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Find backup</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="checkbox">
+                                <input type="checkbox" name="search" value="on">
+                                Only show backups of the folder you want to recover (recommended)<br>
+                                This can get slow the more backups you have in the backup directory and will not work
+                                if you renamed the folder you're recovering.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <button class="button is-unrounded is-success is-medium is-fullwidth" type="submit">
+                    <strong>Next step</strong>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

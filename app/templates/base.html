@@ -15,6 +15,7 @@
     {% include "components/navbar.html" %}
 
     <main>
+        {% if not g.custom_flashes %}
         {% with messages = get_flashed_messages(with_categories = True) %}
             {% if messages %}
             <section class="section">
@@ -28,6 +29,7 @@
             </section>
             {% endif %}
         {% endwith %}
+        {% endif %}
         <div class="section">
             {% block content %}
             {% endblock %}

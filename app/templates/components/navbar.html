@@ -6,9 +6,21 @@
     </div>
     <div class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item">
-                My backups
-            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    Backup
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{{url_for('main.new_backup')}}">
+                        Create
+                    </a>
+
+                    <a class="navbar-item" href="{{url_for('main.recover_backup')}}">
+                        Recover
+                    </a>
+                </div>
+            </div>
 
             <a class="navbar-item" href="{{url_for('main.logs')}}">
                 Logs

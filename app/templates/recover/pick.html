@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Pick a backup</h1>
+                <h2 class="subtitle">
+                    The shown directories have been found in your specified backup directory.
+                    Pick the one containing the backup you need.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2 class="subtitle">
+                Backups found in "{{abs_backup_path}}"
+            </h2>
+            <hr>
+            <form action="{{url_for('main.examine_backup')}}" method="post" id="recover-form">
+                {% for backup in backups %}
+                    <div
+                        type="button"
+                        class="box is-fullwidth is-clickable"
+                        href="{{url_for('main.examine_backup', backup = backup)}}"
+                        onclick="set_backup('{{backup}}')"
+                    >
+                        <span class="subtitle">
+                            {{backup}}
+                        </span>
+                    </div>
+                {% endfor %}
+
+                <input type="hidden" name="backup" id="path-input">
+                <input type="hidden" name="to-recover" value="{{to_recover}}">
+                <input type="hidden" name="backup-directory" value="{{abs_backup_path}}">
+            </form>
+            {% if not backups %}
+            <div class="has-text-centered p-6">
+                <h1 class="title">
+                    Aww, snap!
+                </h1>
+                <h2 class="subtitle py-1">
+                    No backup folders have been found in this directory.<br>
+                    Maybe you selected the wrong folder.
+
+                    {% if searched %}
+                    <br><br>
+                    <span class="has-text-danger">
+                        <strong class="has-text-danger">
+                            Try again without using the "Find backup" feature.
+                        </strong> Maybe you renamed your folder in the meantime or
+                        there is an error in your backup's meta file.
+                    </span>
+                    {% endif %}
+                </h2>
+                <a href="{{url_for('main.recover_backup')}}" class="button is-primary is-unrounded">
+                    <strong>Back</strong>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/backup_recovery_picker.js"></script>
+{% endblock %}
