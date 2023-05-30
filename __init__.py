@@ -8,7 +8,10 @@ from .app.main import main
 
 if not path.isfile(ENVFILE):
     with open(ENVFILE, "w") as f:
-        f.write(f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"')
+        f.write(
+            f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"' +
+            '\nFLASK_APP="__init__.py"'
+        )
 
 if not path.isdir(LOGDIR):
     mkdir(LOGDIR)
