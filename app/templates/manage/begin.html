@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Manage backups</h1>
+                <h2 class="subtitle">
+                    Using Lorean's backup management feature, you can easily keep track of your
+                    backups. 
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <form action="{{url_for('main.manage_backups')}}" method="post">
+                <h2 class="subtitle">Select backup directory</h2>
+                <p>
+                    Please enter the directory containing your backups.
+                </p>
+                <hr>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Select</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                {% include "components/backup_location_picker.html" %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <p>
+                    <strong>
+                        Warning!
+                    </strong>
+                    Depending on the size of your backup directory, this can take a significant amount of time
+                    as Lorean will calculate all backup sizes and their validity.
+                </p>
+                <hr>
+
+                <button class="button is-unrounded is-success is-medium is-fullwidth" type="submit">
+                    <strong>Manage</strong>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

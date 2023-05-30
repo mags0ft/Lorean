@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-quarter">
+        <div class="box">
+            <header>
+                <h1 class="title">Manage backups</h1>
+                <h2 class="subtitle">
+                    Using Lorean's backup management feature, you can easily keep track of your
+                    backups.
+                </h2>
+            </header>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <h2>
+                Reading backups from "{{path}}"
+            </h2>
+            <hr>
+            {% for name, data in backups.items() %}
+            <div class="box has-background-{% if data['errors'] %}danger{% else %}success{% endif %}-light">
+                <details>
+                    <summary class="is-clickable is-unselectable">
+                        <strong>{{name}}</strong>
+                    </summary>
+                
+                    <div>
+                        {% if data["errors"] %}
+                        <ul>
+                            {% for error in data["errors"] %}
+                                <li class="has-text-danger-dark">
+                                    {{error}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <strong class="has-text-success-dark">
+                            Ran full validation on this backup - no errors have been found.
+                        </strong>
+                        {% endif %}
+                        <br>
+                        <strong>Size of backup</strong>: {{data["size"]}} MB
+                    </div>
+                </details>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
