@@ -1,10 +1,10 @@
 from multiprocessing import Process, Pipe
-from ...app.main.data_container import Progress
-from ...app.backupd.logger import create_logger
-from ...app.config import LOGDIR, LOG_SKIPS, LOG_COPY
+from ..main.data_container import Progress
+from ..backupd.logger import create_logger
+from ..config import LOGDIR, LOG_SKIPS, LOG_COPY
 from uuid import uuid4
 
-from os import walk, mkdir, path, pardir
+from os import walk, mkdir, path
 from shutil import copy
 from time import sleep
 from traceback import format_exc

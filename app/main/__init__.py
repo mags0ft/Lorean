@@ -9,9 +9,9 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from ...app.database import create_database
-from ...app.backupd import start_backup, start_recovery
-from ...app.config import LOGDIR
+from ..database import create_database
+from ..backupd import start_backup, start_recovery
+from ..config import LOGDIR
 from uuid import uuid4
 from datetime import datetime
 import os, json
