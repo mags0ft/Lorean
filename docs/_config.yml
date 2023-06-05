@@ -3,4 +3,4 @@ plugins:
 - jekyll-remote-theme
 title: Lorean
 description: Easy-to-use app to create, manage and restore backups.
-show_downloads: true
+show_downloads: false

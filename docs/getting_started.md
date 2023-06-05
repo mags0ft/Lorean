@@ -9,6 +9,14 @@ In this little article you are going to learn about how to install Lorean on you
 *Note that these requirements are partially way higher than the actual resource usage of Lorean; the extra margin is simply there to allow the app to expand in the future with more needed libraries, features etc. without causing any problems. Actual resource usage is, as stated, way lower.*
 
 ## Installation
+
+**For Windows users only:** There are compiled .EXE files ready for you to be ran on your machine. Visit the
+[Release page](https://github.com/mags0ft/Lorean/releases) on GitHub, click on "Assets" under the latest release and
+download the .EXE. Put it in a separate folder on your machine which is empty (so Lorean can save it's settings and
+config files somewhere) and run the file "Lorean.exe".
+
+**For Mac/Unix users:** Native binary support may come in the future. For now, follow the instructions below.
+
 1. Download the Lorean zip file and extract it, or simply clone the repo from GitHub:
 `git clone https://github.com/mags0ft/Lorean.git`
 
