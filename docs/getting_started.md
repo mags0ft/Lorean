@@ -4,7 +4,7 @@ In this little article you are going to learn about how to install Lorean on you
 ## Requirements
 - minimum Python 3.7, **tested and recommended is Python 3.9.13 and above!**
 - more than 50MB free disk space, **recommended is at least 100MB!**
-- 10MB free RAM, **recommended is 100MB to 200MB RAM left for Lorean**
+- 50MB free RAM, **recommended is 100MB to 200MB RAM left for Lorean**
 
 *Note that these requirements are partially way higher than the actual resource usage of Lorean; the extra margin is simply there to allow the app to expand in the future with more needed libraries, features etc. without causing any problems. Actual resource usage is, as stated, way lower.*
 

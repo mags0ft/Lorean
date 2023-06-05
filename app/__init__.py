@@ -19,7 +19,7 @@ if not path.isdir(LOGDIR):
 
 load_dotenv()
 
-def create_app():
+def create_app(standalone = False):
     app = Flask(
         __name__
     )
@@ -29,7 +29,7 @@ def create_app():
     app.config["SECRET_KEY"] = getenv("SECRET_KEY")
     app.jinja_env.globals.update(round=round, len=len)
 
-    if not DEBUG:
+    if standalone:
         webbrowser.open("http://localhost:5000/")
 
     return app

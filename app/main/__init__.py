@@ -1,5 +1,6 @@
 from flask import (
     Blueprint,
+    current_app,
     render_template,
     redirect,
     url_for,
@@ -23,6 +24,12 @@ pipe, data = None, None
 @main.route("/")
 def index():
     return render_template("index.html")
+
+@main.errorhandler(500)
+def error_500(_):
+    return render_template(
+        "errors/error.html"
+    )
 
 @main.route("/settings")
 def settings():

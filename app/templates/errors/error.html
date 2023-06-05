@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="box m-6 has-background-danger-light has-text-centered">
+    <h1 class="title has-text-danger-dark">
+        An error occured.
+    </h1>
+
+    <p class="has-text-danger-dark p-6">
+        It seems like an error occured in the application.<br>
+        Please make sure all your inputs are correct, eventual
+        devices are mounted, paths are valid and your settings
+        are fine.<br><br>
+        If the error persists, please open an issue using the navigation
+        bar by hovering over "Options" and clicking "New issue".
+    </p>
+
+    <button onclick="window.history.back(1)" class="button is-danger is-medium is-unrounded px-6">
+        <strong>
+            Back
+        </strong>
+    </button>
+</div>
+
+{% endblock %}
