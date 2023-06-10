@@ -10,9 +10,9 @@ In this little article you are going to learn about how to install Lorean on you
 
 ## Installation
 
-**For Windows users only:** There are compiled .EXE files ready for you to be ran on your machine. Visit the
+**For Windows users only:** There are compiled .EXE files available for your computer. Visit the
 [Release page](https://github.com/mags0ft/Lorean/releases) on GitHub, click on "Assets" under the latest release and
-download the .EXE. Put it in a separate folder on your machine which is empty (so Lorean can save it's settings and
+download the .EXE. Put it in a separate folder on your machine which is empty (so Lorean can save its settings and
 config files somewhere) and run the file "Lorean.exe".
 
 **For Mac/Unix users:** Native binary support may come in the future. For now, follow the instructions below.
