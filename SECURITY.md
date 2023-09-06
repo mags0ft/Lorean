@@ -9,6 +9,6 @@ further investigation.
 **IMPORTANT**: Do NOT open a publicly visible pull request, discussion or issue, but rather report it via the **private vulnerability reporting feature**
 set up for this repository.
 
-## [Report vulerabilities here!](https://github.com/mags0ft/Lorean/security/advisories/new)
+## [Report vulnerabilities here!](https://github.com/mags0ft/Lorean/security/advisories/new)
 
 We thank for for any advisories regarding the security and safety of Lorean backups and its users.
