@@ -6,6 +6,12 @@ Lorean is a simple and user-friendly backup management tool written in Python us
 You can easily create, manage and restore backups which are still human readable and can be
 easily modified. Technically, you could also call it "over-engineered file copying app".
 
+**WARNING**! This is by no means a well-tested and bulletproof backup system. Always make
+sure to follow the 3-2-1 backup rule, do not put full trust into this program if the data
+being backed up is critical and make sure your recovery strategy works.
+
+See `LICENSE`. This software comes with ABSOLUTELY NO WARRANTY.
+
 ## 🔥 Features
 
 Lorean has some advantages compared to just copying and pasting your folders, such as:
