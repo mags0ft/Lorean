@@ -1,8 +1,11 @@
 ![Lorean logo](https://raw.githubusercontent.com/mags0ft/Lorean/master/app/static/images/logo.png)
 
-# 🚗 Lorean
+<h1 align="center">🚗 Lorean</h1>
 
-Lorean is a simple and user-friendly backup management tool written in Python using Flask.
+<p align="center">
+  <i>Lorean is a simple and user-friendly backup management tool written in Python using Flask.</i>
+</p>
+
 You can easily create, manage and restore backups which are still human readable and can be
 easily modified. Technically, you could also call it "over-engineered file copying app".
 
