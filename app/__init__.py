@@ -1,3 +1,7 @@
+"""
+The base initialization module for the app.
+"""
+
 from flask import Flask
 from dotenv import load_dotenv
 from os import getenv, mkdir, path
@@ -7,19 +11,32 @@ import webbrowser
 from .config import *
 from .main import main
 
-if not path.isfile(ENVFILE):
-    with open(ENVFILE, "w") as f:
-        f.write(
-            f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"' +
-            '\nFLASK_APP="__init__.py"'
-        )
 
-if not path.isdir(LOGDIR):
-    mkdir(LOGDIR)
+def init() -> None:
+    """
+    Initializes some application specific files and variables.
+    """
+    
+    if not path.isfile(ENVFILE):
+        with open(ENVFILE, "w") as f:
+            f.write(
+                f'SECRET_KEY="{str(uuid4())}-{str(uuid4())}"' +
+                '\nFLASK_APP="__init__.py"'
+            )
 
-load_dotenv()
+    if not path.isdir(LOGDIR):
+        mkdir(LOGDIR)
+
+    load_dotenv()
+
 
 def create_app(standalone = False):
+    """
+    Creates the Flask application.
+    The standalone parameter will also automatically open up the
+    UI in a web browser upon launch.
+    """
+    
     app = Flask(
         __name__
     )
