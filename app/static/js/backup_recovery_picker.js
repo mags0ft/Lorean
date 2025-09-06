@@ -1,7 +1,7 @@
-let INPUT = document.getElementById("path-input");
-let FORM = document.getElementById("recover-form");
+let input = document.getElementById("path-input");
+let form = document.getElementById("recover-form");
 
 function set_backup(path) {
-    INPUT.value = path;
-    FORM.submit();
+    input.value = path;
+    form.submit();
 }
