@@ -1,36 +1,21 @@
 """
-Module for any data containing classes.
-TODO: consider migration to dataclasses.
+Module containing data classes used in the application.
+Currently, only the Progress class is defined here. It tracks the progress of
+a job, including the current file being processed, the number of files
+processed, the total number of files, and any skipped files.
 """
 
+from dataclasses import dataclass
+
+
+@dataclass
 class Progress:
     """
     Class to keep track of the current job progress.
     """
-    
-    current_file = ""
 
-    current_file_nr = 0
-    total_file_nr = 0
-    skipped = 0
-
-    description = "Copying files to target directory..."
-
-    def __init__(self, current_file, current_file_nr, total_file_nr, skipped, description):
-        """
-        Initializes the progress class.
-        """
-        
-        (
-            self.current_file,
-            self.current_file_nr,
-            self.total_file_nr,
-            self.skipped,
-            self.description
-        ) = (
-            current_file,
-            current_file_nr,
-            total_file_nr,
-            skipped,
-            description
-        )
+    current_file: str = ""
+    current_file_nr: int = 0
+    total_file_nr: int = 0
+    skipped: int = 0
+    description: str = "Copying files to target directory..."
