@@ -9,11 +9,15 @@
 You can easily create, manage and restore backups which are still human readable and can be
 easily modified. Technically, you could also call it "over-engineered file copying app".
 
-**WARNING**! This is by no means a well-tested and bulletproof backup system. Always make
-sure to follow the 3-2-1 backup rule, do not put full trust into this program if the data
-being backed up is critical and make sure your recovery strategy works.
+> [!WARNING]
+> This is by no means a well-tested and bulletproof backup system. Always make
+> sure to follow the 3-2-1 backup rule, do not put full trust into this program if the data
+> being backed up is critical and make sure your recovery strategy works.
+> 
+> See `LICENSE`. This software comes with ABSOLUTELY NO WARRANTY.
 
-See `LICENSE`. This software comes with ABSOLUTELY NO WARRANTY.
+> [!NOTE]
+> This software has been written when I was around 15 years old and may contain severe code quality and usability issues; even though it was mildly improved in mid to late 2025, functionality may still be limited.
 
 ## 🔥 Features
 
