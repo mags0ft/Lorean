@@ -1,10 +1,28 @@
-let PROGRESS_BAR = document.getElementById("progress-bar");
+/**
+ * Progress bar element for displaying backup progress
+ * @type {HTMLElement}
+ */
+const PROGRESS_BAR = document.getElementById("progress-bar");
+
+/**
+ * Interval ID for the monitoring update cycle
+ * @type {number}
+ */
 let interval = 0;
 
+/**
+ * Updates the monitor UI based on backup status data
+ * @param {Object} json - The backup status data
+ * @param {boolean} json.backup_running - Whether a backup is currently running
+ * @param {Object} json.data - Backup progress data
+ * @param {string} json.data.description - Current backup description/status
+ * @param {number} json.data.total_file_nr - Total number of files to backup
+ * @param {number} json.data.current_file_nr - Current file number being processed
+ */
 function set_monitor(json) {
     if (!json["backup_running"]) {
         document.getElementById("description").innerText =
-        "All backup tasks seem to have finished. There is no backup running anymore.";
+            "All backup tasks seem to have finished. There is no backup running anymore.";
         PROGRESS_BAR.classList.add("is-success");
         PROGRESS_BAR.classList.remove("is-primary");
         PROGRESS_BAR.value = 1;
@@ -19,7 +37,7 @@ function set_monitor(json) {
 
             document.getElementById("description").classList.add("has-text-danger");
             document.getElementById("description").innerText = json["data"]["description"];
-            
+
             clearInterval(interval)
             return;
         }
@@ -28,12 +46,14 @@ function set_monitor(json) {
         document.getElementById("description").classList.remove("has-text-danger");
     }
 
-    for (key in json["data"]) {
-        document.getElementById(key).innerText = json["data"][key];
+    for (const key in json["data"]) {
+        if (json["data"].hasOwnProperty(key)) {
+            document.getElementById(key).innerText = json["data"][key];
+        }
     }
 
     PROGRESS_BAR.max = json["data"]["total_file_nr"];
-    cur_file_nr = json["data"]["current_file_nr"];
+    const cur_file_nr = json["data"]["current_file_nr"];
     if (cur_file_nr != 0) {
         PROGRESS_BAR.value = cur_file_nr;
     } else {
@@ -41,8 +61,12 @@ function set_monitor(json) {
     }
 }
 
+/**
+ * Fetches backup status from the server and updates the monitor
+ * Makes an HTTP request to the backup monitor API endpoint
+ */
 function update_monitor() {
-    var res = fetch(
+    const res = fetch(
         "/backup/monitor-api"
     );
 
