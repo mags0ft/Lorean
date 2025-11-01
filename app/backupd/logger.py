@@ -13,8 +13,8 @@ def create_logger(name, filepath):
     Returns the configured logger instance.
     """
 
-    l = logging.getLogger(name)
-    l.setLevel(logging.DEBUG)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         "%(asctime)s.%(msecs)02d %(levelname)s: %(message)s",
@@ -26,6 +26,6 @@ def create_logger(name, filepath):
     handler.setLevel(logging.DEBUG)
     handler.setFormatter(formatter)
 
-    l.addHandler(handler)
+    logger.addHandler(handler)
 
-    return l
+    return logger
